@@ -1,0 +1,6 @@
+Feature ID,Feature type,Contig,Location,Strand,Feature function,Aliases,Name
+JCCJPNLN_00001,gene,k121_705408,1169..156,-,Tyrosine recombinase XerC,"xerC, xerC",IntI1
+JCCJPNLN_00002,gene,k121_705408,1408..1740,+,Multidrug transporter EmrE,"emrE_1, emrE_1",EmrE1
+JCCJPNLN_00003,gene,k121_705408,1951..2298,+,Multidrug transporter EmrE,"emrE_2, emrE_2",EmrE2
+JCCJPNLN_00004,gene,k121_705408,2292..3131,+,Dihydropteroate synthase,"folP, folP",Sul1
+JCCJPNLN_00005,gene,k121_705408,3259..3759,+,hypothetical protein,,

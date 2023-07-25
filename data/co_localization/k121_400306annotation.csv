@@ -1,0 +1,8 @@
+Feature ID,Feature type,Contig,Location,Strand,Feature function,Aliases,Name
+LBNMHHOA_00001,gene,k121_400306,900..481,-,Aminoglycoside 3'-phosphotransferase,"neo, neo",APH(3')
+LBNMHHOA_00002,gene,k121_400306,1964..1350,-,DNA-invertase hin,"hin, hin",hin
+LBNMHHOA_00003,gene,k121_400306,2090..4975,+,Tn3 family transposase,,Tn3
+LBNMHHOA_00004,gene,k121_400306,6176..5163,-,Tyrosine recombinase XerC,"xerC, xerC",IntI1
+LBNMHHOA_00005,gene,k121_400306,6278..7129,+,Dihydropteroate synthase,"folP, folP",Sul1
+LBNMHHOA_00006,gene,k121_400306,7257..7757,+,hypothetical protein,,
+LBNMHHOA_00007,gene,k121_400306,7880..7740,-,hypothetical protein,,

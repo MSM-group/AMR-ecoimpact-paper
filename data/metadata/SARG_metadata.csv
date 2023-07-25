@@ -1,0 +1,103 @@
+contig,gene_id,gene_function
+k121_255520_3,YP_002937728,undecaprenyl-diphosphatase [Eubacterium rectale ATCC 33656].
+k121_252136_5,AY162283.2.gene3.p01,beta-lactamase OXA-4. Confers resistance to penicillins an
+k121_1488741_1,gi|906298254|emb|CRZ18264.1|,tetracycline-resistance determinant TetV [Mycobact
+k121_1809809_1,P30898,RecName: Full=Beta-lactamase; Flags: Precursor.
+k121_1294233_4,CP000675.2.gene1535.p01,transcriptional regulatory protein CpxR. Encoded by gen
+k121_479849_1,gi|553795209|ref|WP_023125875.1|,multidrug efflux outer membrane protein OprN [
+k121_401896_1,gi|759411561|ref|WP_043135597.1|,CMY/LAT/MOX/ACT/MIR/FOX family class C beta-la
+k121_1589252_3,GQ396303.1.gene1.p01,extended-spectrum beta-lactamase PER-6. PER-6 Curated. Enc
+k121_790052_6,X58272.1.gene1.p01,blaZ beta-lactmase. OXA-5 Curated. Encoded by gene blaOXA-5.
+k121_238593_1,ABG77519,aminoglycoside 6'-N-acetyltransferase [Pseudomonas aeruginosa].
+k121_1423813_2,CAC47932,TetX2 protein [Bacteroides thetaiotaomicron].
+k121_1246460_4,gi|518577471|ref|WP_019747678.1|,rifampin monooxygenase [Rhodococcus erythropol
+k121_438003_1,ABL62887,DfrA16 [Salmonella enterica subsp. enterica serovar Haifa].
+k121_1638165_15,NC_010410.6003262.p01,major facilitator superfamily multidrug resistance protei
+k121_58970_1,P14171,RecName: Full=Beta-lactamase; AltName: Full=Penicillinase; Flags: Precur
+k121_495553_2,YP_001797193,undecaprenol kinase [Polynucleobacter necessarius subsp. necessari
+k121_1365491_2,gi|983204316|ref|WP_060470352.1|,macrolide efflux MFS transporter Mef(A) [Enter
+k121_997836_1,U14748.1.gene2.p01,AER-1 precursor. Encoded by gene blaAER-1. AER-1 Curated. AR
+k121_724130_3,ACI02892,FloR [uncultured bacterium HHV216].
+k121_365816_2,AF118110.1.gene1.p01,class A beta-lactamase CFXA2 precursor. CfxA2 Curated. Enc
+k121_1092380_2,U41471.1.gene1.p01,AAC(2')-Ib. Encoded by gene aac(2')-Ib. Aminoglycoside 2'-N-
+k121_1046017_2,NC_011595.7059912.p01,"MexT protein. Homology: HTH transcriptional regulator, Ly"
+k121_466249_1,NC_010400.5984909.p01,multidrug ABC transporter. Homology: Sterol-sensing 5TM b
+k121_357241_1,NC_010400.5984909.p01,multidrug ABC transporter. Homology: Sterol-sensing 5TM b
+k121_302252_1,NC_010400.5984909.p01,multidrug ABC transporter. Homology: Sterol-sensing 5TM b
+k121_77453_2,NC_010400.5984384.p01,outer membrane protein (AdeC-like). Encoded by gene ABSDF
+k121_1788674_3,gi|685918340|ref|WP_031655082.1|,AAC(3)-I family aminoglycoside 3-N-acetyltrans
+k121_42076_1,gi|1031628006|gb|ANG11269.1|,beta-lactamase TEM-1 variant [synthetic construct]
+k121_1704035_1,gi|553792626|ref|WP_023123650.1|,resistance-nodulation-cell division (RND) mult
+k121_255479_3,YP_002890644,undecaprenol kinase [Thauera sp. MZ1T].
+k121_764851_3,AY339985.2.gene4.p01,resistance to sulphonamides protein. Encoded by gene sul1.
+k121_724130_4,AY339985.2.gene4.p01,resistance to sulphonamides protein. Encoded by gene sul1.
+k121_906279_2,NC_008702.1.4608023.p01,multidrug efflux transporter protein. Low similarity wi
+k121_580500_2,AJ222769.gene.p01,tetW* protein. Encoded by gene tetW*. ARO:3000194 tetW. [Buty
+k121_401236_1,gi|751314291|ref|WP_041021175.1|,LysR family transcriptional regulator [Pseudom
+k121_370213_1,NP_511233,tetracycline resistance protein [IncN plasmid R46].
+k121_50166_2,gi|499222460|ref|WP_010920000.1|,CAU/MBL1b family subclass B3 metallo-beta-lact
+k121_965840_2,AF024666.2.gene33.p01,CmxB. cmx Curated. Chloramphenicol export protein. Encode
+k121_1290865_1,gi|966403553|ref|WP_058447148.1|,transporter [Legionella feeleii] >gi|962211145
+k121_109860_2,gi|966403553|ref|WP_058447148.1|,transporter [Legionella feeleii] >gi|962211145
+k121_1082478_2,YP_997055,putative undecaprenol kinase [Verminephrobacter eiseniae EF01-2].
+k121_115983_6,AF064820.3.gene2.p01,oxacillinase. OXA-22 Curated. Encoded by gene oxa-22. ARO:
+k121_79954_69,ZP_02007607,putative undecaprenol kinase [Ralstonia pickettii 12D].
+k121_1272857_1,gi|852273548|ref|WP_048328542.1|,acriflavine resistance protein B [Pseudomonas 
+k121_15532_6,NC_011586.7045444.p01,multidrug efflux protein AdeJ. Encoded by gene adeJ. ARO:
+k121_780262_2,AB104852.1.gene2.p01,IMP-1 metallo-beta-lactmase. Encoded by gene bla IMP. ARO:
+k121_1330000_1,AAA27431,clindamycin resistance determinant (ermFS) [Bacteroides fragilis].
+k121_1643710_6,NC_009085.4919119.p01,AdeA membrane fusion protein. Encoded by gene A1S_1752. H
+k121_1085118_2,JQ861959.1.gene7.p01,spectinomycin adenylyltransferase. Encoded by gene spc. AN
+k121_1361241_2,NC_011586.7046576.p01,RND family multidrug resistance secretion protein. Homolo
+k121_942206_1,gi|851899656|ref|WP_048211088.1|,bifunctional UDP-glucuronic acid oxidase/UDP-4
+k121_339048_1,YP_001346277,RND efflux transporter [Pseudomonas aeruginosa PA7].
+k121_981513_1,gi|408694161|gb|EKL39742.1|,dihydropteroate synthase [Acinetobacter baumannii O
+k121_1519353_3,ABM94007,Undecaprenyl-diphosphatase [Methylibium petroleiphilum PM1].
+k121_611494_1,EU408347.1.gene6.p01,drug resistance transporter. EmrB/QacA subfamily. Encoded 
+k121_1686166_1,ZP_04556181,aminoglycoside 6-adenylyltransferase AadE [Bacteroides sp. D4].
+k121_670656_5,ABA54978,OXA-9 [Pseudomonas putida].
+k121_1292698_3,NC_010558.1.6275994.p01,aminoglycoside resistance protein. Streptomycin 3'-aden
+k121_538461_3,YP_002552549,undecaprenol kinase [Diaphorobacter sp. TPSY].
+k121_1288254_1,YP_002552549,undecaprenol kinase [Diaphorobacter sp. TPSY].
+k121_1259309_2,DQ464881.1.gene4.p01,StrA. APH(3'')-Ib Curated. Streptomycin resistance. Encode
+k121_178939_6,A0KQI1,RecName: Full=Undecaprenyl-diphosphatase; AltName: Full=Undecaprenyl pyr
+k121_1494871_1,AY570763.1.gene3.p01,Oxa-58. Oxacillinase. Encoded by gene blaOXA-58. OXA-58 Cu
+k121_1229424_2,BAD46890,tetracycline resistant protein TetQ [Bacteroides fragilis YCH46].
+k121_210290_1,NC_009085.4918693.p01,"AdeI. Homology: Secretion protein HlyD (HMMPfam: PF00529,"
+k121_270992_7,AF525303.2.gene5.p01,oxacillinase OXA-60. OXA-60 Curated. Encoded by gene bla O
+k121_185419_2,YP_002421432,undecaprenol kinase [Methylobacterium chloromethanicum CM4].
+k121_1708036_69,gi|504907940|ref|WP_015095042.1|,multidrug efflux RND transporter permease subu
+k121_858589_5,CAI46978,Class-A beta-lactamase [Pseudomonas aeruginosa].
+k121_1762969_1,gi|938897327|ref|WP_054681472.1|,vancomycin resistance DNA-binding response reg
+k121_686909_81,gi|769926791|ref|WP_045061034.1|,multidrug efflux RND transporter permease subu
+k121_1643710_7,gi|490792007|ref|WP_004654153.1|,AdeB family multidrug efflux RND transporter p
+k121_736202_1,Q880L3,RecName: Full=Undecaprenyl-diphosphatase; AltName: Full=Undecaprenyl pyr
+k121_900900_5,NC_010410.6002639.p01,MFS family transporter. Encoded by gene ABAYE3685. Homolo
+k121_205890_1,Q00983,RecName: Full=Beta-lactamase LCR-1; Flags: Precursor.
+k121_1299587_5,AY743590.gene.p01,tet39 protein. Encoded by gene tet39. ARO:3000566 tet39. [Aci
+k121_660679_2,AB777500.1.gene5.p01,oxacillinase. OXA-2 Curated. Encoded by gene blaOXA-2. ARO
+k121_1057301_2,AJ567827.1.gene1.p01,putative aminoglycoside adenylyltransferase. Encoded by ge
+k121_790124_1,gi|490367208|ref|WP_004246872.1|,MULTISPECIES: transcriptional regulator Crp [P
+k121_893075_2,KF203107.1.gene1.p01,beta-lactamase OXA-333. OXA-333 Curated. Encoded by gene b
+k121_500579_3,NC_011586.7045179.p01,dihydropteroate synthase. Encoded by gene folP. Homology:
+k121_40257_1,gi|950228232|ref|WP_057272322.1|,aminoglycoside N-acetyltransferase AAC(6')-31 
+k121_50545_1,AM261837.1.gene1.p01,aminoglycoside adenyltransferase. Encoded by gene aadA22. 
+k121_1325277_1,JQ861959.1.gene5.p01,aminoglycoside 6-adenylyltansferase. ANT(6')-Ia Curated. E
+k121_671215_2,gi|749030947|ref|WP_040078663.1|,Mph(A) family macrolide 2'-phosphotransferase 
+k121_64041_9,YP_001186705,multidrug efflux protein [Pseudomonas mendocina ymp].
+k121_1049150_7,ZP_03923764,tetracycline resistance protein Tet (M) [Mobiluncus curtisii ATCC 4
+k121_1273179_10,gi|764947227|ref|WP_044517721.1|,class A beta-lactamase [Mycobacterium septicum
+k121_1602733_1,AAL05554,putative lincosamide nucleotidyltransferase [Enterococcus faecalis].
+k121_816922_1,gi|446961536|ref|WP_001038792.1|,MULTISPECIES: 23S rRNA (adenine(2058)-N(6))-me
+k121_667899_1,gi|914235780|ref|WP_050551089.1|,MacA family efflux pump subunit [Acinetobacter
+k121_68825_2,AM087411.1.gene3.p01,aminoglycoside-modifying enzyme. Encoded by gene aadA6. aa
+k121_797356_1,NC_011595.7058890.p01,Outer membrane protein oprM precursor. Encoded by gene AB
+k121_1269806_2,FJ666063.1.gene1.p1,extended-spectrum beta-lactamase BEL-2. Encoded by gene ACV
+k121_1282450_2,gi|475937711|gb|EMU05763.1|,multidrug efflux system translocase MdfA [Acinetoba
+k121_1956670_1,YP_550152,undecaprenyl-diphosphatase [Polaromonas sp. JS666].
+k121_895379_1,AY463797.7.gene32.p01,StrB. Encoded by gene strB. Streptomycin phosphotransfera
+k121_1655639_2,AF133140.gene.p01,TetG protein. Encoded by gene TetG. ARO:3000165 tetA. ARO:300
+k121_731759_3,ACI02010,tetracycline resistance protein [uncultured bacterium].
+k121_566136_4,ASK40562.1,phosphoethanolamine transferase mcr-5 (plasmid) [Salmonella enterica
+k121_118679_6,WP_000345069.1,MULTISPECIES: multidrug efflux MFS transporter AbaQ [Acinetobact
+k121_796109_1,YP_009182146.1,QacEdelta1 (plasmid) [Escherichia coli]

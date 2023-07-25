@@ -1,0 +1,12 @@
+id,name
+SadA_ref|WP_036299419.1|:1-399,SadA_ref|WP_036299419.1|:1-399 MULTISPECIES: oxidoreductase [Micrococcales]
+SadB_ref|WP_100812327.1|:1-423,SadB_ref|WP_100812327.1|:1-423 acyl-CoA dehydrogenase family protein [Microbacterium sp. BR1]
+SadC_ref|WP_036299413.1|:1-194,SadC_ref|WP_036299413.1|:1-194 MULTISPECIES: flavin reductase SulR [Micrococcales]
+WP_000259031.1,WP_000259031.1 MULTISPECIES: sulfonamide-resistant dihydropteroate synthase Sul1 [Bacteria]
+WP_001043260.1,WP_001043260.1 MULTISPECIES: sulfonamide-resistant dihydropteroate synthase Sul2 [Bacteria]
+WP_000034420.1,WP_000034420.1 MULTISPECIES: sulfonamide-resistant dihydropteroate synthase Sul3 [Gammaproteobacteria]
+WP_206434233.1,WP_206434233.1 sulfonamide-resistant dihydropteroate synthase Sul4 [Klebsiella variicola]
+WP_005414519.1,WP_005414519.1 efflux transporter SmeDEF transcriptional repressor SmeT [Stenotrophomonas maltophilia]
+WP_025877280.1,WP_025877280.1 MULTISPECIES: efflux transporter SmeDEF transcriptional repressor SmeT [Stenotrophomonas]
+WP_089236970.1,WP_089236970.1 MULTISPECIES: efflux transporter SmeDEF transcriptional repressor SmeT [Stenotrophomonas]
+WP_000845048.1,WP_000845048.1 MULTISPECIES: class 1 integron integrase IntI1 [Bacteria]
