@@ -1,12 +1,10 @@
-rm(list = ls()) #clear data
-#load required packages
+rm(list = ls()) 
 library(pacman)
 pacman::p_load("tidyverse", "readxl", "vegan", "ggpubr","janitor", "ape", "edgeR")
-#import deepargs data
+
 deepargs_in <- readr::read_csv("data_MS/deeparg_subtype_16S_norm.csv") %>%
   janitor::clean_names()
 
-#import sample metadata (based on Serina's code)
 sample_metadata <- readxl::read_excel("data/metadata/EcoImpact_Exp1_Exp2_DNA_samples_LC_2_metadata.xlsx") %>%
   janitor::clean_names() %>%
   dplyr::mutate(sample_perc = dplyr::case_when(grepl("BT", sample_name) ~ paste0("BT_", stringr::word(sample_name, 2, sep = "_")),
@@ -23,7 +21,7 @@ deepargs <- deepargs_in %>%
   as.data.frame() %>%
   tibble::column_to_rownames(var = "sample")
 
-#perform square root transformation if desired (****with BRAY dist method only use sq root trans****)
+#square root transformation
 square_root <- TRUE
 if(square_root == TRUE){
   deepargs <- deepargs %>%
@@ -49,13 +47,9 @@ pcoa_plot_dat <- tibble::tibble(sample = rownames(pcoa$vectors), axis1 = pcoa$ve
   dplyr::mutate(sample_perc = forcats::fct_relevel(sample_perc, c("BT_CB", "BT_WW", "BT_UF", "WW00", "WW30", "WW80", "WW30UF", "WW80UF")),
                 experiment = as.factor(experiment))
 
-
-#plotting only biofilm data for exp2 only!
-
-#create data for plotting pcoa
 pcoa_plot_dat2 <- pcoa_plot_dat %>%
   filter(experiment == 2) #%>%
-#filter(!(sample_perc %in% c("BT_CB", "BT_WW", "BT_UF")))
+
 colors <- c(rgb(100/255, 170/255, 112/255),
             rgb(119/255, 106/255, 105/255),
             rgb(210/255, 208/255, 213/255),
@@ -83,7 +77,7 @@ pcoa_plot <- ggplot2::ggplot(pcoa_plot_dat2, aes(x = axis1, y = axis2, color = s
   ggplot2::scale_colour_manual(values = colors,
                                labels = c("River water", "Waste water", "Waste water UF", "0% WW", "30% WW", "80% WW", "30% WW UF", "80% WW UF"))+
   ggplot2::stat_ellipse(linewidth = 0.3)
-#save plot
+
 ggplot2::ggsave("paper_figures/figure2.png",
                 pcoa_plot, device= "png", units= c("mm"), height = 70, width = 120, dpi = 500)
 

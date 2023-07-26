@@ -1,5 +1,4 @@
-rm(list = ls()) #clear data
-#load required packages
+rm(list = ls()) 
 library(pacman)
 pacman::p_load("tidyverse", "readxl", "vegan", "ggpubr","janitor", "ape", "edgeR")
 #color palette
@@ -15,7 +14,7 @@ colors <- c(rgb(100/255, 170/255, 112/255),
 #DeepARGs main types (classes)
 deepargs_dat <- readr::read_csv("data_MS/deeparg_type_16S_norm.csv") %>%
   janitor::clean_names()
-#sample metadata
+
 sample_metadat <- readxl::read_excel("data/metadata/EcoImpact_Exp1_Exp2_DNA_samples_LC_2_metadata.xlsx") %>%
   janitor::clean_names() %>%
   dplyr::mutate(sample_perc = dplyr::case_when(grepl("BT", sample_name) ~ paste0("BT_", stringr::word(sample_name, 2, sep = "_")),
@@ -33,7 +32,7 @@ sample_metadat <- readxl::read_excel("data/metadata/EcoImpact_Exp1_Exp2_DNA_samp
 data <- dplyr::left_join(deepargs_dat, sample_metadat, by= "sample")%>%
   pivot_longer(cols= 2:41, names_to = "args", values_to = "read_count")
 
-#below a function Milo made to create labels for p-values
+#A function to create labels for p-values
 p_adj_stars = function(p){
   case_when(p > 0.05 ~ "ns",
             p <= 0.05 & p > 0.01 ~ "*",
@@ -42,7 +41,7 @@ p_adj_stars = function(p){
             p <= 0.0001 ~ "****")
 }
 
-# doing the p-value correction (of the kruskal-wallis test) using Benjamini-Hochberg correction 
+# P-value correction (of the kruskal-wallis test) using Benjamini-Hochberg correction 
 stati_test <-  data %>%
   dplyr::group_by(args) %>%
   rstatix::kruskal_test(read_count ~ sample_perc) %>%
@@ -58,9 +57,9 @@ sig_deepargs <- p_corrected%>%
 write.csv(sig_deepargs, "output/data/20230725_sig_deepargs_maintypes_corrected_BH_kruskal_wallis.csv")
 
 
-#filter only highly sigificant ARGs and readcount filteration 
 plot_data<- read_csv("output/data/20230725_sig_deepargs_maintypes_corrected_BH_kruskal_wallis.csv") %>%
   dplyr::mutate(read_count_corrected = read_count+1) %>%
+  filter(as.numeric(read_count) > 0.001)%>%
   filter(experiment == 2)
 plot_data2 <- plot_data %>%
   filter(args %in% c("aminoglycoside", "beta_lactam", "fluoroquinolone", "fosfomycin", "fosmidomycin", "glycopeptide", 

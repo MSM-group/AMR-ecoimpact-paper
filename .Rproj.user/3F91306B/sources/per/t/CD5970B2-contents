@@ -2,22 +2,13 @@ rm(list = ls()) #clear data
 #load required packages
 library(pacman)
 pacman::p_load("tidyverse", "readxl", "vegan", "ggpubr","janitor", "ape", "edgeR")
-colors <- c(rgb(100/255, 170/255, 112/255),
-            rgb(119/255, 106/255, 105/255),
-            rgb(210/255, 208/255, 213/255),
-            rgb(147/255, 213/255, 231/255),
-            rgb(254/255, 203/255, 103/255),
-            rgb(239/255, 234/255, 183/255),
-            rgb(234/255, 166/255, 123/255),
-            rgb(212/255, 191/255, 153/255),
-            rgb(202/255, 154/255, 129/255))
+
 sig_genes_types <- read.csv("data/20230119_sig_genes_types_biofilmsamples102orfs.csv") %>%
   janitor::clean_names()%>%
   mutate(p_value= signif(p_adj, digits = 2)) %>%
   mutate(p_value_corr= str_trim(p_value, side = c("both")))
 round(p_adj$sig_genes_types, digits = 3)
 
-#changing lables
 sig_genes_types_mod <- sig_genes_types %>%
   mutate(contig_mod = recode(contig,
                              "k121_858589_5" = "Beta-lactam",
@@ -44,9 +35,6 @@ contig_type <- c("k121_858589_5" = "Beta-lactam1",
                  "k121_68825_2" = "Aminoglycoside",
                  "k121_906279_2" = "Multidrug",
                  "k121_671215_2" = "MLS")
-
-
-
 
 
 sig_genes_types_mod2 <- sig_genes_types_mod %>%
