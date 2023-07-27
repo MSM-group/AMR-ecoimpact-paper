@@ -12,9 +12,9 @@ colors <- c(rgb(100/255, 170/255, 112/255),
             rgb(212/255, 191/255, 153/255),
             rgb(202/255, 154/255, 129/255))
 #DeepARGs main types (classes)
-deepargs_dat <- readr::read_csv("data_MS/deeparg_type_16S_norm.csv") %>%
+deepargs_dat <- readr::read_csv("data/deeparg_type_16S_norm.csv") %>%
   janitor::clean_names()
-
+#import sample metadata (based on Serina's code)
 sample_metadat <- readxl::read_excel("data/metadata/EcoImpact_Exp1_Exp2_DNA_samples_LC_2_metadata.xlsx") %>%
   janitor::clean_names() %>%
   dplyr::mutate(sample_perc = dplyr::case_when(grepl("BT", sample_name) ~ paste0("BT_", stringr::word(sample_name, 2, sep = "_")),
@@ -32,7 +32,7 @@ sample_metadat <- readxl::read_excel("data/metadata/EcoImpact_Exp1_Exp2_DNA_samp
 data <- dplyr::left_join(deepargs_dat, sample_metadat, by= "sample")%>%
   pivot_longer(cols= 2:41, names_to = "args", values_to = "read_count")
 
-#A function to create labels for p-values
+#A function Milo wrote to create labels for p-values
 p_adj_stars = function(p){
   case_when(p > 0.05 ~ "ns",
             p <= 0.05 & p > 0.01 ~ "*",
@@ -56,7 +56,7 @@ sig_deepargs <- p_corrected%>%
   select("sample", "sample_perc", "args", "read_count", "p.adj", "lab", "sample_type", "experiment")
 write.csv(sig_deepargs, "output/data/20230725_sig_deepargs_maintypes_corrected_BH_kruskal_wallis.csv")
 
-
+#tidying and filtering data
 plot_data<- read_csv("output/data/20230725_sig_deepargs_maintypes_corrected_BH_kruskal_wallis.csv") %>%
   dplyr::mutate(read_count_corrected = read_count+1) %>%
   filter(as.numeric(read_count) > 0.001)%>%
@@ -66,6 +66,7 @@ plot_data2 <- plot_data %>%
                      "mls", "multidrug", "peptide", "Phenicol", "rifamycin", "sulfonamide", "tetracycline")) %>%
   dplyr::mutate(sample_perc = forcats::fct_relevel(sample_perc, c("BT_CB", "BT_WW", "BT_UF", "WW00", "WW30", "WW80", "WW30UF", "WW80UF")))
 
+#creating labels
 x_axis_labels<- c("Aminoglycoside", "Beta-lactam", "Fluoroquinolone", "Fosfomycin", "Fosmidomycin", "Glycopeptide", 
                   "MLS", "Multidrug", "Peptide", "Rifamycin", "Sulfonamide", "Tetracycline")  
 
@@ -88,7 +89,7 @@ arg_types<- c("aminoglycoside" = "Aminoglycoside",
               "tetracycline"= "Tetracycline")
 
 
-#removing water samples
+#filtering out water samples
 
 plot_data_no_water <- plot_data2 %>%
   filter(!(sample_perc %in% c("BT_CB", "BT_WW", "BT_UF")))

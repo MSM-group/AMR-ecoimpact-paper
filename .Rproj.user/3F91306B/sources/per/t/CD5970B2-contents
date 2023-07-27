@@ -1,8 +1,10 @@
+#clear_environment
 rm(list = ls()) #clear data
 #load required packages
 library(pacman)
 pacman::p_load("tidyverse", "readxl", "vegan", "ggpubr","janitor", "ape", "edgeR")
 
+#importing SARG data
 sig_genes_types <- read.csv("data/20230119_sig_genes_types_biofilmsamples102orfs.csv") %>%
   janitor::clean_names()%>%
   mutate(p_value= signif(p_adj, digits = 2)) %>%
@@ -24,7 +26,7 @@ sig_genes_types_mod <- sig_genes_types %>%
   dplyr::mutate(sample_perc = forcats::fct_relevel(condition, c("WW00", "WW10", 
                                                                 "WW30", "WW80", 
                                                                 "WW30UF", "WW80UF")))
-
+#creating labels
 contig_type <- c("k121_858589_5" = "Beta-lactam1",
                  "k121_252136_5" = "Beta-lactam2",
                  "k121_1269806_2" = "Beta-lactam3",
@@ -36,7 +38,7 @@ contig_type <- c("k121_858589_5" = "Beta-lactam1",
                  "k121_906279_2" = "Multidrug",
                  "k121_671215_2" = "MLS")
 
-
+#filtering experiment 2
 sig_genes_types_mod2 <- sig_genes_types_mod %>%
   filter(experiment == 2)%>%
   mutate(contig_mod = recode(contig,

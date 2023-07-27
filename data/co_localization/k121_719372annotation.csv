@@ -1,7 +1,0 @@
-Feature ID,Feature type,Contig,Location,Strand,Feature function,Aliases,Name
-HKJFDAPF_00001,gene,k121_719372,349..239,-,hypothetical protein,,
-HKJFDAPF_00002,gene,k121_719372,1657..644,-,Tyrosine recombinase XerC,"xerC, xerC",IntI1
-HKJFDAPF_00003,gene,k121_719372,1902..2249,+,Multidrug transporter EmrE,"emrE, emrE",EmrE
-HKJFDAPF_00004,gene,k121_719372,2243..3082,+,Dihydropteroate synthase,"folP, folP",Sul1
-HKJFDAPF_00005,gene,k121_719372,3210..3710,+,hypothetical protein,,
-HKJFDAPF_00006,gene,k121_719372,3830..3693,-,hypothetical protein,,

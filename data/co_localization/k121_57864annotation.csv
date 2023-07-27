@@ -1,9 +1,0 @@
-Feature ID,Feature type,Contig,Location,Strand,Feature function,Aliases,Name
-GCDBBIJA_00001,gene,k121_57864,1285..482,-,Aminoglycoside 3'-phosphotransferase,"neo, neo",APH(3')
-GCDBBIJA_00002,gene,k121_57864,1965..1351,-,DNA-invertase hin,"hin, hin",hin
-GCDBBIJA_00003,gene,k121_57864,2091..4976,+,Tn3 family transposase,,Tn3
-GCDBBIJA_00004,gene,k121_57864,6177..5164,-,Tyrosine recombinase XerC,"xerC, xerC",IntI1
-GCDBBIJA_00005,gene,k121_57864,6279..7130,+,Dihydropteroate synthase,"folP, folP",Sul1
-GCDBBIJA_00006,gene,k121_57864,7258..7758,+,hypothetical protein,,
-GCDBBIJA_00007,gene,k121_57864,7878..7741,-,hypothetical protein,,
-GCDBBIJA_00008,gene,k121_57864,8342..8055,-,Trans-acting regulatory protein HvrA,"hvrA, hvrA",

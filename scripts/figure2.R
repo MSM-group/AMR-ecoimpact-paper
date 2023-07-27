@@ -1,7 +1,18 @@
+#clear_environment
 rm(list = ls()) 
+#load required packages
 library(pacman)
 pacman::p_load("tidyverse", "readxl", "vegan", "ggpubr","janitor", "ape", "edgeR")
-
+#color palette
+colors <- c(rgb(100/255, 170/255, 112/255),
+            rgb(119/255, 106/255, 105/255),
+            rgb(210/255, 208/255, 213/255),
+            rgb(147/255, 213/255, 231/255),
+            rgb(239/255, 234/255, 183/255),
+            rgb(234/255, 166/255, 123/255),
+            rgb(212/255, 191/255, 153/255),
+            rgb(202/255, 154/255, 129/255))
+#import deepargs data
 deepargs_in <- readr::read_csv("data_MS/deeparg_subtype_16S_norm.csv") %>%
   janitor::clean_names()
 
@@ -50,14 +61,7 @@ pcoa_plot_dat <- tibble::tibble(sample = rownames(pcoa$vectors), axis1 = pcoa$ve
 pcoa_plot_dat2 <- pcoa_plot_dat %>%
   filter(experiment == 2) #%>%
 
-colors <- c(rgb(100/255, 170/255, 112/255),
-            rgb(119/255, 106/255, 105/255),
-            rgb(210/255, 208/255, 213/255),
-            rgb(147/255, 213/255, 231/255),
-            rgb(239/255, 234/255, 183/255),
-            rgb(234/255, 166/255, 123/255),
-            rgb(212/255, 191/255, 153/255),
-            rgb(202/255, 154/255, 129/255))
+
 #plot
 pcoa_plot <- ggplot2::ggplot(pcoa_plot_dat2, aes(x = axis1, y = axis2, color = sample_perc)) +
   ggplot2::geom_point(aes(x=axis1,y=axis2,colour=sample_perc),alpha = 1, size=1.5) +
