@@ -13,7 +13,7 @@ colors <- c(rgb(100/255, 170/255, 112/255),
             rgb(212/255, 191/255, 153/255),
             rgb(202/255, 154/255, 129/255))
 #import deepargs data
-deepargs_in <- readr::read_csv("data_MS/deeparg_subtype_16S_norm.csv") %>%
+deepargs_in <- readr::read_csv("data/deeparg_subtype_16S_norm.csv") %>%
   janitor::clean_names()
 
 sample_metadata <- readxl::read_excel("data/metadata/EcoImpact_Exp1_Exp2_DNA_samples_LC_2_metadata.xlsx") %>%
@@ -47,7 +47,7 @@ dist_mat <- deepargs %>%
 
 #compute pcoa
 pcoa <- ape::pcoa(dist_mat)
-write_rds(pcoa, "data/paper/deepargs_pcoa.rds")
+write_rds(pcoa, "data/deepargs_pcoa.rds")
 
 #compute PREMANOVA
 permanova <- adonis2(dist_mat ~ sample_perc + experiment, sample_metadata, permutations = 999, by = "margin")
