@@ -111,7 +111,8 @@ write.csv(plot_data_no_water2, "output/data/20230725_most_sig_deepargs_maintypes
 #plot
 plot1 <- ggplot(plot_data_no_water2, aes(fill=sample_perc, y=as.numeric(read_count_corrected), x= sample_perc))+
   geom_boxplot() +
-  scale_colour_manual(values = c("WW00"="#93D5E7",
+  geom_jitter(aes(color= sample_perc)) +
+  scale_colour_manual(guide = "none", values = c("WW00"="#93D5E7",
                                  "WW30"="#EFEAB7",
                                  "WW80"="#EAA67B",
                                  "WW30UF"="#D4BF99",
@@ -131,6 +132,7 @@ plot1 <- ggplot(plot_data_no_water2, aes(fill=sample_perc, y=as.numeric(read_cou
                             "WW80" = "80% WW",
                             "WW30UF" = "30% WW UF",
                             "WW80UF" = "80% WW UF"))+
+  stat_pvalue_manual(plot_data_no_water2, label = "lab")
   theme_pubr(legend = c("right")) +
   facet_wrap(nrow= 4, ncol= 3, vars(args), scales = "free_y", labeller = as_labeller(arg_types)) +
   labs(x = "Condition", y = "16S normalized read counts (Corrected +1)")+
