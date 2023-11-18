@@ -130,6 +130,7 @@ plot1 <- ggplot(plot_data_no_water2, aes(fill=sample_perc, y=as.numeric(read_cou
                             "WW80" = "80% WW",
                             "WW30UF" = "30% WW UF",
                             "WW80UF" = "80% WW UF"))+
+  stat_pvalue_manual(plot_data_no_water2, label = "lab")
   theme_pubr(legend = c("right")) +
   facet_wrap(nrow= 4, ncol= 3, vars(args), scales = "free_y", labeller = as_labeller(arg_types)) +
   labs(x = "Condition", y = "16S normalized read counts (Corrected +1)")+
