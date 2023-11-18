@@ -12,7 +12,7 @@ colors <- c(rgb(100/255, 170/255, 112/255),
 #load required packages
 library(pacman)
 pacman::p_load("tidyverse", "readxl", "vegan", "ggpubr","janitor", "ape", "edgeR")
-#import sample metadata (based on Serina's code)
+#import sample metadata 
 sample_metadata <- readxl::read_excel("data/metadata/EcoImpact_Exp1_Exp2_DNA_samples_LC_2_metadata.xlsx") %>%
   janitor::clean_names() %>%
   dplyr::mutate(sample_perc = dplyr::case_when(grepl("BT", sample_name) ~ paste0("BT_", stringr::word(sample_name, 2, sep = "_")),
@@ -36,7 +36,6 @@ ctest <- tibble(sample = rownames(crustypro$X),
   dplyr::mutate(sample_perc = forcats::fct_relevel(sample_perc, c("BT_CB", "BT_WW", "BT_UF", "WW00", "WW30", "WW80", "WW30UF", "WW80UF")),
                 experiment = as.factor(experiment))
 plot_gg <- ggplot(ctest) +
-  #geom_point(aes(x=yrda1, y=yrda2, color = sample_perc), size = 5) +
   geom_point(aes(x=xrda1, y=xrda2, color = sample_perc), size = 5) +
   geom_segment(aes(x=xrda1,y=xrda2,xend=yrda1,yend=yrda2, color = sample_perc), arrow=arrow(length=unit(0.5,"cm")), linewidth = 1.5) +
   theme_pubr() +
@@ -46,10 +45,10 @@ plot_gg <- ggplot(ctest) +
                  strip.text.x = element_text(size = 32, face = "italic"),
                  axis.title = element_text(size = 32),
                  axis.text = element_text(size = 28)) +
-  ggplot2::scale_color_manual(labels = c("River water", "Wastewater", "Wastewater UF", "0% WW", "30% WW", "80% WW", "30% WW UF", "80% WW UF"), values = colors) +
+  ggplot2::scale_color_manual(labels = c("Stream water", "Wastewater", "Wastewater UF", "0% WW", "30% WW", "80% WW", "30% WW UF", "80% WW UF"), values = colors) +
   ggplot2::labs(x = "Dimension 1", y = "Dimension 2", color = "Treatment")
 #save plot
-ggsave("paper_figures/figure3.jpg",
+ggsave("output/figures/figure2_procrustes.jpg",
        dpi = 300,
        device = "jpeg",
        units = "cm",

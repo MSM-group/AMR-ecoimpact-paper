@@ -65,7 +65,6 @@ pcoa_plot_dat2 <- pcoa_plot_dat %>%
 #plot
 pcoa_plot <- ggplot2::ggplot(pcoa_plot_dat2, aes(x = axis1, y = axis2, color = sample_perc)) +
   ggplot2::geom_point(aes(x=axis1,y=axis2,colour=sample_perc),alpha = 1, size=1.5) +
-  #ggplot2::geom_line()+
   ggplot2::labs(x = paste0("PCoA Axis 1 (", as.character(round(pcoa$values$Relative_eig[1]*100, 1)), " %)"), y = paste0("PCoA Axis 2 (", as.character(round(pcoa$values$Relative_eig[2]*100, 1)), " %)"), color = "Treatment") +
   ggplot2::guides(color = guide_legend(order=2),
                   shape = guide_legend(order=1))+
@@ -79,9 +78,9 @@ pcoa_plot <- ggplot2::ggplot(pcoa_plot_dat2, aes(x = axis1, y = axis2, color = s
                  axis.text.x = element_text(face="plain", size=8, colour = "black", hjust = 1),
                  axis.text.y = element_text(face="plain", size=8, colour = "black")) +
   ggplot2::scale_colour_manual(values = colors,
-                               labels = c("River water", "Waste water", "Waste water UF", "0% WW", "30% WW", "80% WW", "30% WW UF", "80% WW UF"))+
+                               labels = c("Stream water", "Waste water", "Waste water UF", "0% WW", "30% WW", "80% WW", "30% WW UF", "80% WW UF"))+
   ggplot2::stat_ellipse(linewidth = 0.3)
 
-ggplot2::ggsave("paper_figures/figure2.png",
+ggplot2::ggsave("output/figures/figureS4.png",
                 pcoa_plot, device= "png", units= c("mm"), height = 70, width = 120, dpi = 500)
 

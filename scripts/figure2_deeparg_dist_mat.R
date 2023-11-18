@@ -6,7 +6,7 @@ pacman::p_load("tidyverse", "readxl", "vegan", "ggpubr","janitor", "ape")
 deepargs_in <- readr::read_csv("data/deeparg_subtype_16S_norm.csv") %>%
   janitor::clean_names()
 
-#import sample metadata (based on Serina's code)
+#import sample metadata
 sample_metadata <- readxl::read_excel("data/metadata/EcoImpact_Exp1_Exp2_DNA_samples_LC_2_metadata.xlsx") %>%
   janitor::clean_names() %>%
   dplyr::mutate(sample_perc = dplyr::case_when(grepl("BT", sample_name) ~ paste0("BT_", stringr::word(sample_name, 2, sep = "_")),
@@ -52,3 +52,4 @@ dist_mat <- deepargs %>%
 #compute pcoa
 pcoa <- ape::pcoa(dist_mat)
 write_rds(pcoa, "data/deepargs_pcoa_exp2.rds")
+

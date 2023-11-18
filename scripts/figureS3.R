@@ -38,7 +38,7 @@ mtags_tax <- mtags_in %>%
   dplyr::mutate(dplyr::across(.cols = !ends_with("_id"), stringr::word, sep = "__", start = 2, end = 2))
 mtags_tax[nrow(mtags_tax)-1, ncol(mtags_tax)] <- dplyr::pull(mtags_in, number_taxpath)[nrow(mtags_tax)-1]
 mtags_tax[nrow(mtags_tax), ncol(mtags_tax)] <- dplyr::pull(mtags_in, number_taxpath)[nrow(mtags_tax)]
-#import sample metadata (based on Serina's code)
+#import sample metadata
 sample_metadata <- readxl::read_excel("data/metadata/EcoImpact_Exp1_Exp2_DNA_samples_LC_2_metadata.xlsx") %>%
   janitor::clean_names() %>%
   dplyr::mutate(sample_perc = dplyr::case_when(grepl("BT", sample_name) ~ paste0("BT_", stringr::word(sample_name, 2, sep = "_")),
@@ -135,9 +135,9 @@ pcoa_plot <- ggplot2::ggplot(pcoa_plot_dat, aes(x = axis1, y = axis2, color = sa
   ggplot2::labs(x = paste0("PCoA Axis 1 (", as.character(round(pcoa$values$Relative_eig[1], 4)*100), " %)"), y = paste0("PCoA Axis 2 (", as.character(round(pcoa$values$Relative_eig[2], 4)*100), " %)"), color = "Treatment") +
   ggpubr::theme_pubr() +
   ggplot2::theme(legend.position = "right") +
-  ggplot2::scale_color_manual(labels = c("River water", "Wastewater", "Wastewater UF", "0% WW", "30% WW", "80% WW", "30% WW UF", "80% WW UF"), values = colors)
+  ggplot2::scale_color_manual(labels = c("Stream water", "Wastewater", "Wastewater UF", "0% WW", "30% WW", "80% WW", "30% WW UF", "80% WW UF"), values = colors)
 #save plot
-ggplot2::ggsave("paper_figures/figure_1.jpg",
+ggplot2::ggsave("output/figures/figureS3.jpg",
                 pcoa_plot,
                 device = "jpg",
                 dpi = 300,

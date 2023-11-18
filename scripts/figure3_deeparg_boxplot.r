@@ -14,7 +14,7 @@ colors <- c(rgb(100/255, 170/255, 112/255),
 #DeepARGs main types (classes)
 deepargs_dat <- readr::read_csv("data/deeparg_type_16S_norm.csv") %>%
   janitor::clean_names()
-#import sample metadata (based on Serina's code)
+#import sample metadata 
 sample_metadat <- readxl::read_excel("data/metadata/EcoImpact_Exp1_Exp2_DNA_samples_LC_2_metadata.xlsx") %>%
   janitor::clean_names() %>%
   dplyr::mutate(sample_perc = dplyr::case_when(grepl("BT", sample_name) ~ paste0("BT_", stringr::word(sample_name, 2, sep = "_")),
@@ -32,7 +32,7 @@ sample_metadat <- readxl::read_excel("data/metadata/EcoImpact_Exp1_Exp2_DNA_samp
 data <- dplyr::left_join(deepargs_dat, sample_metadat, by= "sample")%>%
   pivot_longer(cols= 2:41, names_to = "args", values_to = "read_count")
 
-#A function Milo wrote to create labels for p-values
+#Create labels for p-values
 p_adj_stars = function(p){
   case_when(p > 0.05 ~ "ns",
             p <= 0.05 & p > 0.01 ~ "*",
@@ -41,23 +41,24 @@ p_adj_stars = function(p){
             p <= 0.0001 ~ "****")
 }
 
-# P-value correction (of the kruskal-wallis test) using Benjamini-Hochberg correction 
+# P-value correction (of the Kruskal-Wallis test) using Benjamini-Hochberg correction 
 stati_test <-  data %>%
   dplyr::group_by(args) %>%
   rstatix::kruskal_test(read_count ~ sample_perc) %>%
   rstatix::adjust_pvalue(method = "BH") %>%
   arrange(p.adj) %>%
   mutate(lab = paste0(method, ": ", p_adj_stars(p.adj)))
+
 p_corrected <- dplyr::left_join(data, stati_test)
 
-write.csv(p_corrected, "output/data/20230725_deepsrgs_main_types_kruscal_wallistest_corrected_P_BHmethod.csv")
-sig_deepargs <- p_corrected%>%
+write.csv(p_corrected, "output/stat_tests/20230725_deepargs_main_types_kruskal_wallistest_corrected_P_BHmethod.csv")
+sig_deepargs <- p_corrected %>%
   filter(p.adj < 0.05) %>%
   select("sample", "sample_perc", "args", "read_count", "p.adj", "lab", "sample_type", "experiment")
-write.csv(sig_deepargs, "output/data/20230725_sig_deepargs_maintypes_corrected_BH_kruskal_wallis.csv")
+write.csv(sig_deepargs, "output/stat_tests/20230725_sig_deepargs_maintypes_corrected_BH_kruskal_wallis.csv")
 
 #tidying and filtering data
-plot_data<- read_csv("output/data/20230725_sig_deepargs_maintypes_corrected_BH_kruskal_wallis.csv") %>%
+plot_data<- read_csv("output/stat_tests/20230725_sig_deepargs_maintypes_corrected_BH_kruskal_wallis.csv") %>%
   dplyr::mutate(read_count_corrected = read_count+1) %>%
   filter(as.numeric(read_count) > 0.001)%>%
   filter(experiment == 2)
@@ -88,9 +89,7 @@ arg_types<- c("aminoglycoside" = "Aminoglycoside",
               "sulfonamide"= "Sulfonamide", 
               "tetracycline"= "Tetracycline")
 
-
 #filtering out water samples
-
 plot_data_no_water <- plot_data2 %>%
   filter(!(sample_perc %in% c("BT_CB", "BT_WW", "BT_UF")))
 
@@ -98,19 +97,19 @@ stati_test2 <-  plot_data_no_water %>%
   dplyr::group_by(args) %>%
   rstatix::kruskal_test(read_count ~ sample_perc) %>%
   rstatix::adjust_pvalue(method = "BH") %>%
-  arrange(p.adj) %>%
-  mutate(lab2 = paste0(method, ": ", p_adj_stars(p.adj)))
+  dplyr::arrange(p.adj)
+
 p_corrected2 <- dplyr::left_join(plot_data_no_water, stati_test2)
 
 plot_data_no_water2 <- plot_data_no_water %>%
   filter(args %in% c("aminoglycoside", "beta_lactam", "fluoroquinolone", "glycopeptide", 
                      "mls", "multidrug", "peptide", "Phenicol", "rifamycin", "sulfonamide", "tetracycline"))
-write.csv(plot_data_no_water2, "output/data/20230725_most_sig_deepargs_maintypes_corrected_BH_kruskal_wallis.csv")  
-
+write.csv(plot_data_no_water2, "output/stat_tests/20230725_most_sig_deepargs_maintypes_corrected_BH_kruskal_wallis.csv")  
 
 #plot
 plot1 <- ggplot(plot_data_no_water2, aes(fill=sample_perc, y=as.numeric(read_count_corrected), x= sample_perc))+
   geom_boxplot() +
+  geom_jitter(pch=21, color = "black", aes(x = sample_perc)) +
   scale_colour_manual(values = c("WW00"="#93D5E7",
                                  "WW30"="#EFEAB7",
                                  "WW80"="#EAA67B",
@@ -142,5 +141,5 @@ plot1 <- ggplot(plot_data_no_water2, aes(fill=sample_perc, y=as.numeric(read_cou
         axis.title=element_text(size=14,face="bold"),
         axis.text.x = element_text(face="plain", size=10, colour = "black", angle = 45, hjust = 1),
         axis.text.y = element_text(face="plain", size=10, colour = "black"), strip.text = element_text(size=14, face="bold"))
-ggsave("paper_figures/figure4.png", 
+ggsave("output/figures/figure3_deeparg_boxplot.png", 
        plot1, device= "png", units= c("mm"), height = 240, width = 190, dpi = 500)

@@ -9,7 +9,7 @@ sig_genes_types <- read.csv("data/20230119_sig_genes_types_biofilmsamples102orfs
   janitor::clean_names()%>%
   mutate(p_value= signif(p_adj, digits = 2)) %>%
   mutate(p_value_corr= str_trim(p_value, side = c("both")))
-round(p_adj$sig_genes_types, digits = 3)
+round(sig_genes_types$p_adj, digits = 3)
 
 sig_genes_types_mod <- sig_genes_types %>%
   mutate(contig_mod = recode(contig,
@@ -67,11 +67,10 @@ sig_genes_types_mod3 <- sig_genes_types_mod2 %>%
                                                                 "Macrolide-Lincomide-Streptogramin")))
 
 #plot
-
 plot1<- ggplot(sig_genes_types_mod3, aes(x= sample_perc, y= as.numeric(corrected_reads), 
                                                fill = sample_perc))+
   geom_boxplot() +
-  geom_jitter(aes(x = sample_perc, as.numeric(corrected_reads), fill = sample_perc, color= sample_perc)) +
+  geom_jitter(pch=21, color = "black", aes(x = sample_perc, as.numeric(corrected_reads))) +
   scale_colour_manual(guide = "none", values = c("WW00"="#93D5E7",
                                                  "WW30"="#EFEAB7",
                                                  "WW80"="#EAA67B",
@@ -105,5 +104,5 @@ plot1<- ggplot(sig_genes_types_mod3, aes(x= sample_perc, y= as.numeric(corrected
         axis.text.y = element_text(face="plain", size=8, colour = "black"), 
         strip.text = element_text(size=8, face="bold"))
 
-ggsave("paper_figures/figure5.png", plot1, 
+ggsave("output/figures/figure4_SARG_boxplot.png", plot1, 
        device= "png", units= c("mm"), height = 120, width = 190, dpi = 500)
