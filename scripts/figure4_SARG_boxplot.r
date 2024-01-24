@@ -13,9 +13,9 @@ round(sig_genes_types$p_adj, digits = 3)
 
 sig_genes_types_mod <- sig_genes_types %>%
   mutate(contig_mod = recode(contig,
-                             "k121_858589_5" = "Beta-lactam",
-                             "k121_252136_5" = "Beta-lactam",
-                             "k121_1269806_2" = "Beta-lactam",
+                             "k121_858589_5" = "Class-A beta-lactamase",
+                             "k121_252136_5" = "Class-D beta-lactamase (OXA-4)",
+                             "k121_1269806_2" = "Extended spectrum beta-lactamase BEL-2",
                              "k121_895379_1" = "Other",
                              "k121_1259309_2" = "Other",
                              "k121_1519353_3" = "Other",
@@ -27,9 +27,9 @@ sig_genes_types_mod <- sig_genes_types %>%
                                                                 "WW30", "WW80", 
                                                                 "WW30UF", "WW80UF")))
 #creating labels
-contig_type <- c("k121_858589_5" = "Beta-lactam1",
-                 "k121_252136_5" = "Beta-lactam2",
-                 "k121_1269806_2" = "Beta-lactam3",
+contig_type <- c("k121_858589_5" = "Class-A beta-lactamase",
+                 "k121_252136_5" = "Class-D beta-lactamase (OXA-4)",
+                 "k121_1269806_2" = "BEL-family beta-lactamase",
                  "k121_895379_1" = "Other1",
                  "k121_1259309_2" = "Other2",
                  "k121_1519353_3" = "Other3",
@@ -42,9 +42,9 @@ contig_type <- c("k121_858589_5" = "Beta-lactam1",
 sig_genes_types_mod2 <- sig_genes_types_mod %>%
   filter(experiment == 2)%>%
   mutate(contig_mod = recode(contig,
-                             "k121_858589_5" = "Beta-lactam 1",
-                             "k121_252136_5" = "Beta-lactam 2",
-                             "k121_1269806_2" = "Beta-lactam 3",
+                             "k121_858589_5" = "Class-A beta-lactamase",
+                             "k121_252136_5" = "Class-D beta-lactamase (OXA-4)",
+                             "k121_1269806_2" = "BEL-family beta-lactamase",
                              "k121_895379_1" = "Other1",
                              "k121_1259309_2" = "Other2",
                              "k121_1519353_3" = "Other3",
@@ -57,11 +57,12 @@ sig_genes_types_mod2 <- sig_genes_types_mod %>%
                                                                   "WW80UF"))) %>%
   dplyr::mutate(corrected_reads= normalized_reads+1)
 sig_genes_types_mod3 <- sig_genes_types_mod2 %>%
-  filter(contig_mod %in% c("Beta-lactam 1", "Beta-lactam 2", "Beta-lactam 3", "Aminoglycoside", "Multidrug", 
+  filter(contig_mod %in% c("Class-A beta-lactamase", "Class-D beta-lactamase (OXA-4)", 
+                           "BEL-family beta-lactamase", "Aminoglycoside", "Multidrug", 
                            "Macrolide-Lincomide-Streptogramin")) %>%
-  dplyr::mutate(contig_mod = forcats::fct_relevel(contig_mod, c("Beta-lactam 1", 
-                                                                "Beta-lactam 2", 
-                                                                "Beta-lactam 3", 
+  dplyr::mutate(contig_mod = forcats::fct_relevel(contig_mod, c("Class-A beta-lactamase",
+                                                                "Class-D beta-lactamase (OXA-4)",
+                                                                "BEL-family beta-lactamase",
                                                                 "Aminoglycoside", 
                                                                 "Multidrug", 
                                                                 "Macrolide-Lincomide-Streptogramin")))
@@ -103,6 +104,6 @@ plot1<- ggplot(sig_genes_types_mod3, aes(x= sample_perc, y= as.numeric(corrected
         axis.text.x = element_text(face="plain", size=8, colour = "black", angle = 45, hjust = 1),
         axis.text.y = element_text(face="plain", size=8, colour = "black"), 
         strip.text = element_text(size=8, face="bold"))
-
+plot1
 ggsave("output/figures/figure4_SARG_boxplot.png", plot1, 
        device= "png", units= c("mm"), height = 120, width = 190, dpi = 500)
