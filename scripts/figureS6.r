@@ -14,9 +14,7 @@ colors <- c(rgb(100/255, 170/255, 112/255),
 
 # Read in the diamond results
 diamond <- readr::read_csv("data/Exp2_functional_gene_counts.csv") %>%
-  janitor::clean_names() %>%
-  remove_rownames %>% 
-  column_to_rownames(var="sample")
+  column_to_rownames(var = "sample")
 
 #perform hellinger transformation if desired
 hellinger <- TRUE
@@ -32,6 +30,7 @@ if(square_root == TRUE){
     dplyr::mutate(across(.cols = everything(), sqrt))
 }
 
+
 #compute distance matrix
 dist_method <- "bray"
 
@@ -39,7 +38,7 @@ dist_mat <- diamond %>%
   vegan::vegdist(method = dist_method)
 
 #compute pcoa
-pcoa <- ape::pcoa(dist_mat)
+kegg_pcoa <- ape::pcoa(dist_mat)
 
 sample_metadata <- readxl::read_excel("data/metadata/EcoImpact_Exp1_Exp2_DNA_samples_LC_2_metadata.xlsx") %>%
   janitor::clean_names() %>%
@@ -59,19 +58,42 @@ pcoa_plot_dat <- tibble::tibble(sample = rownames(pcoa$vectors), axis1 = pcoa$ve
   dplyr::mutate(sample_perc = forcats::fct_relevel(sample_perc, c("BT_CB", "BT_WW", "BT_UF", "WW00", "WW30", "WW80", "WW30UF", "WW80UF")),
                 experiment = as.factor(experiment))
 
-kegg_pcoa_plot <- ggplot2::ggplot(pcoa_plot_dat, aes(x = axis1, y = axis2, color = sample_perc)) +
-  ggplot2::geom_point() +
-  ggplot2::stat_ellipse() +
-  ggplot2::labs(x = paste0("PCoA Axis 1 (", as.character(round(pcoa$values$Relative_eig[1], 4)*100), " %)"), y = paste0("PCoA Axis 2 (", as.character(round(pcoa$values$Relative_eig[2], 4)*100), " %)"), color = "Treatment") +
-  ggpubr::theme_pubr() +
-  ggplot2::theme(legend.position = "right") +
-  ggplot2::scale_color_manual(labels = c("River water", "Wastewater", "Wastewater UF", "0% WW", "30% WW", "80% WW", "30% WW UF", "80% WW UF"), values = colors)
 
-ggplot2::ggsave("output/figures/figureSx.png",
-                kegg_pcoa_plot, 
-                device= "png", units= c("mm"), height = 70, width = 120, dpi = 500)
+# Read in DeepArg data
+deeparg <- readr::read_rds("data/deepargs_pcoa_exp2.rds")
 
-stat_test <- adonis2(dist_mat ~ sample_perc, sample_metadata, permutations = 999, by = "margin")
+# Procrustes
+crustypro <- vegan::procrustes(Y = kegg_pcoa$vectors, X = deeparg$vectors, symmetric = TRUE)
+
+ctest <- tibble(sample = rownames(crustypro$X),
+                yrda1 = crustypro$Yrot[,1],
+                yrda2 = crustypro$Yrot[,2],
+                xrda1 = crustypro$X[,1],
+                xrda2 = crustypro$X[,2]) %>%
+  left_join(sample_metadata, by = c("sample" = "sample_code"))  %>%
+  dplyr::mutate(sample_perc = forcats::fct_relevel(sample_perc, c("BT_CB", "BT_WW", "BT_UF", "WW00", "WW30", "WW80", "WW30UF", "WW80UF")),
+                experiment = as.factor(experiment))
+plot_gg <- ggplot(ctest) +
+  geom_point(aes(x=xrda1, y=xrda2, color = sample_perc), size = 5) +
+  geom_segment(aes(x=xrda1,y=xrda2,xend=yrda1,yend=yrda2, color = sample_perc), arrow=arrow(length=unit(0.5,"cm")), linewidth = 1.5) +
+  theme_pubr() +
+  ggplot2::theme(legend.position = "right",
+                 legend.text = element_text(size = 28),
+                 legend.title = element_text(size = 32),
+                 strip.text.x = element_text(size = 32, face = "italic"),
+                 axis.title = element_text(size = 32),
+                 axis.text = element_text(size = 28)) +
+  ggplot2::scale_color_manual(labels = c("Stream water", "Wastewater", "Wastewater UF", "0% WW", "30% WW", "80% WW", "30% WW UF", "80% WW UF"), values = colors) +
+  ggplot2::labs(x = "Dimension 1", y = "Dimension 2", color = "Treatment")
+plot_gg
+
+ggsave("output/figures/figureS6.png",
+       dpi = 300,
+       device = "jpeg",
+       units = "cm",
+       width = 75/2.9,
+       height = (75/2)/2.5)
+
+#statistical test
+stat_test <- protest(Y = kegg_pcoa$vectors, X = deeparg$vectors, scores = "sites", permutations = 999)
 stat_test
-
-
