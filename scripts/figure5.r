@@ -93,12 +93,14 @@ dds$sample_perc
 dds <- DESeq(dds)
 resu <- results(dds, contrast = c("sample_perc", "WW30UF", "WW30"))
 resu
-#convert results to tibble format for further analysis and add taxonomic data
+
+#Convert results to tibble format for further analysis and add taxonomic data
 res <- resu %>%
   as.data.frame() %>%
   tibble::rownames_to_column(var = "family_id") %>%
   tibble::as_tibble() %>%
   dplyr::left_join(mtags_tax, by = "family_id")
+
 res_sig <- res %>%
   filter(padj < 0.05 & abs(log2FoldChange) > 2)
 #Make volcano plot
@@ -107,16 +109,14 @@ is_sig <- function(log2fc, p){
                    log2fc < -2 & p < 0.05 ~ "down",
                    TRUE ~ "no")
 }
-make_label <- function(phyl){
-  dplyr::case_when(grepl("Plancto", class) ~ class,
-                   TRUE ~ "")
-}
+
 
 res <- res %>%
   drop_na(padj) %>%
   dplyr::mutate(minusLog10padj = -log10(padj),
                 significance = is_sig(log2FoldChange, padj),
-                lab = make_label(phylum)) 
+                lab = case_when(grepl("Plancto", phylum) ~ phylum,
+                                TRUE ~ ""))
 
 sigdat <- res %>%
   dplyr::filter(padj < 0.05) %>%
@@ -137,9 +137,9 @@ volcano_plot <- ggplot(res, aes(x = log2FoldChange, y = minusLog10padj)) +
   labs(x = expression(log[2](FC)), y = expression(-log[10](p*"-"*adj)))
 volcano_plot
 
-ggsave("output/figures/figure5a.jpg",
+ggsave("output/figures/figure5a.png",
        volcano_plot,
-       device = "jpeg",
+       device = "png",
        dpi = 300,
        units = "cm",
        width = 14,
