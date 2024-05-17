@@ -109,7 +109,7 @@ write.csv(plot_data_no_water2, "output/stat_tests/20230725_most_sig_deepargs_mai
 #plot
 plot1 <- ggplot(plot_data_no_water2, aes(fill=sample_perc, y=as.numeric(read_count_corrected), x= sample_perc))+
   geom_boxplot() +
-  geom_jitter(pch=21, color = "black", aes(x = sample_perc)) +
+  geom_jitter(pch=21, color = "black", aes(x = sample_perc), height = 0) +
   scale_colour_manual(values = c("WW00"="#93D5E7",
                                  "WW30"="#EFEAB7",
                                  "WW80"="#EAA67B",

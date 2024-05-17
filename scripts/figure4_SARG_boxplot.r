@@ -71,7 +71,7 @@ sig_genes_types_mod3 <- sig_genes_types_mod2 %>%
 plot1<- ggplot(sig_genes_types_mod3, aes(x= sample_perc, y= as.numeric(corrected_reads), 
                                                fill = sample_perc))+
   geom_boxplot() +
-  geom_jitter(pch=21, color = "black", aes(x = sample_perc, as.numeric(corrected_reads))) +
+  geom_jitter(pch=21, color = "black", aes(x = sample_perc, as.numeric(corrected_reads)), height = 0) +
   scale_colour_manual(guide = "none", values = c("WW00"="#93D5E7",
                                                  "WW30"="#EFEAB7",
                                                  "WW80"="#EAA67B",
