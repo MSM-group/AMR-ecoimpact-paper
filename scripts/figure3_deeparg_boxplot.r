@@ -1,6 +1,6 @@
 rm(list = ls()) 
 library(pacman)
-pacman::p_load("tidyverse", "readxl", "vegan", "ggpubr","janitor", "ape", "edgeR")
+pacman::p_load("tidyverse", "readxl", "vegan", "ggpubr","janitor", "ape", "edgeR", "rstatix")
 #color palette
 colors <- c(rgb(100/255, 170/255, 112/255),
             rgb(119/255, 106/255, 105/255),
@@ -93,11 +93,20 @@ arg_types<- c("aminoglycoside" = "Aminoglycoside",
 plot_data_no_water <- plot_data2 %>%
   filter(!(sample_perc %in% c("BT_CB", "BT_WW", "BT_UF")))
 
-stati_test2 <-  plot_data_no_water %>%
-  dplyr::group_by(args) %>%
-  rstatix::kruskal_test(read_count ~ sample_perc) %>%
-  rstatix::adjust_pvalue(method = "BH") %>%
-  dplyr::arrange(p.adj)
+#stati_test2 <-  plot_data_no_water %>%
+  #dplyr::group_by(args) %>%
+  #rstatix::kruskal_test(read_count ~ sample_perc) %>%
+  #rstatix::adjust_pvalue(method = "BH") %>%
+  #dplyr::arrange(p.adj)
+stati_test2 <- plot_data_no_water %>%
+  group_by(args) %>%
+  # Check if there are at least two unique values in `sample_perc`
+  filter(n_distinct(sample_perc) > 1) %>%
+  nest() %>%
+  mutate(test = map(data, ~kruskal_test(.x, read_count ~ sample_perc))) %>%
+  unnest(test) %>%
+  adjust_pvalue(method = "BH") %>%
+  arrange(p.adj)
 
 p_corrected2 <- dplyr::left_join(plot_data_no_water, stati_test2)
 
@@ -130,7 +139,7 @@ plot1 <- ggplot(plot_data_no_water2, aes(fill=sample_perc, y=as.numeric(read_cou
                             "WW80" = "80% WW",
                             "WW30UF" = "30% WW UF",
                             "WW80UF" = "80% WW UF"))+
-  stat_pvalue_manual(plot_data_no_water2, label = "lab")
+  #stat_pvalue_manual(plot_data_no_water2, label = "lab") +
   theme_pubr(legend = c("right")) +
   facet_wrap(nrow= 4, ncol= 3, vars(args), scales = "free_y", labeller = as_labeller(arg_types)) +
   labs(x = "Condition", y = "16S normalized read counts (Corrected +1)")+
