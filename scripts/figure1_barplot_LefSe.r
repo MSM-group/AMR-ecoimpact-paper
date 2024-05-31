@@ -25,7 +25,7 @@ mtags_tax <- mtags_in %>%
   dplyr::mutate(dplyr::across(.cols = !ends_with("_id"), stringr::word, sep = "__", start = 2, end = 2))
 mtags_tax[nrow(mtags_tax)-1, ncol(mtags_tax)] <- dplyr::pull(mtags_in, number_taxpath)[nrow(mtags_tax)-1]
 mtags_tax[nrow(mtags_tax), ncol(mtags_tax)] <- dplyr::pull(mtags_in, number_taxpath)[nrow(mtags_tax)]
-#import sample metadata (based on Serina's code)
+#import sample metadata 
 sample_metadata <- readxl::read_excel("data/metadata/EcoImpact_Exp1_Exp2_DNA_samples_LC_2_metadata.xlsx") %>%
   janitor::clean_names() %>%
   dplyr::mutate(sample_perc = dplyr::case_when(grepl("BT", sample_name) ~ paste0("BT_", stringr::word(sample_name, 2, sep = "_")),
@@ -101,21 +101,21 @@ d2
 # read in the phylum
 phyla_pal <- read_csv("data/phylum_palette.csv")
 colnames(phyla_pal) <- c("phylum", "color")
-
+phyla_pal
 #bin low abundance taxa as other
 mtags_phyla_deciles  <- mtags_phyla %>%
-  rownames_to_column(var = "sample")%>%
+  rownames_to_column(var = "sample") %>%
   tidyr::pivot_longer(-sample, names_to = "phylum_id", values_to = "count") %>%
   dplyr::left_join(sample_metadata, by = c("sample" = "sample_code")) %>%
   dplyr::group_by(phylum_id, sample_perc) %>%
   dplyr::summarise(count_sum = sum(count)) %>%
   dplyr::group_by(sample_perc) %>%
-  dplyr::mutate(decile = dplyr::ntile(count_sum, 10)) %>%
+  dplyr::mutate(decile = dplyr::ntile(count_sum, 1)) %>%
   dplyr::ungroup() %>%
   dplyr::group_by(phylum_id) %>%
   dplyr::summarise(max_decile = max(decile))
 upper_decile <- mtags_phyla_deciles %>%
-  dplyr::filter(max_decile == 10) %>%
+  dplyr::filter(max_decile == 1) %>%
   dplyr::pull(phylum_id)
 mtags_phyla_upper_decile <- mtags_phyla %>%
   dplyr::select(all_of(upper_decile))
@@ -126,6 +126,7 @@ mtags_phyla_other <- mtags_phyla %>%
   dplyr::select(other)
 mtags_phyla <- mtags_phyla_upper_decile %>%
   dplyr::mutate(other = dplyr::pull(mtags_phyla_other, other))
+mtags_phyla
 
 #get mean abundance
 mtags_phyla_mean <- mtags_phyla %>%
@@ -139,7 +140,24 @@ mtags_phyla_mean <- mtags_phyla %>%
   dplyr::mutate(rel = mean_count/sum(mean_count)) %>%
   dplyr::left_join(mtags_tax, by = "phylum_id") %>%
   dplyr::select(-c(root, domain)) %>%
+  #dplyr::filter(phylum %in% c(phyla_pal$phylum[!is.na(phyla_pal$phylum)])) %>%
   tidyr::replace_na(list(phylum = "other")) %>%
+  dplyr::filter(phylum %in% c(phyla_pal$phylum[!is.na(phyla_pal$phylum)])) 
+  
+#color palette
+n_colors <- length(levels(mtags_phyla_mean$phylum))-1
+
+#get_palette <- colorRampPalette(brewer.pal(8, "Set1"))
+set.seed(121)
+#pal <- c(sample(phyla_pal$color, n_colors, replace = FALSE), gplots::col2hex("gray80"))
+pal <- phyla_pal$color
+mtags_phyla_mean$phylum
+
+mtags_phyla_mean$phylum <- gsub("Firmicutes", "Bacillota", mtags_phyla_mean$phylum)
+mtags_phyla_mean$phylum <- gsub("Proteobacteria", "Pseudomonadota", mtags_phyla_mean$phylum)
+mtags_phyla_mean$phylum <- gsub("Chloroflexi", "Chloroflexota", mtags_phyla_mean$phylum)
+
+mtags_phyla_mean <- mtags_phyla_mean %>%
   dplyr::mutate(sample_perc = case_when(sample_perc == "BT_CB" ~ "Stream water",
                                         sample_perc == "BT_WW" ~ "Wastewater",
                                         sample_perc == "BT_UF" ~ "Wastewater UF",
@@ -149,20 +167,11 @@ mtags_phyla_mean <- mtags_phyla %>%
                                         sample_perc == "WW80" ~ "80% WW",
                                         sample_perc == "WW30UF" ~ "30% WW UF",
                                         sample_perc == "WW80UF" ~ "80% WW UF") %>%
-                  factor(levels = c("0% WW", "30% WW", "80% WW", "30% WW UF", "80% WW UF")),
-                phylum = phylum %>% 
-                  forcats::fct_relevel("other", after = Inf)) 
-#color palette
-n_colors <- length(levels(mtags_phyla_mean$phylum))-1
-get_palette <- colorRampPalette(brewer.pal(8, "Set1"))
-set.seed(121)
-pal <- c(sample(get_palette(n_colors), n_colors, replace = FALSE), gplots::col2hex("gray80"))
-names(pal) <- levels(mtags_phyla_mean$phylum)
-pal[['Cyanobacteria']] <- "forestgreen"
-pal[['Myxococcota']] <- "royalblue3"
-pal[['Actinobacteria']] <- "yellow4"
+                  factor(levels = c("0% WW", "30% WW", "80% WW", "30% WW UF", "80% WW UF")))
+levs <- sort(unique(mtags_phyla_mean$phylum))
+mtags_phyla_mean$phylum <- factor(mtags_phyla_mean$phylum, levels = levs)
 
-#make plot
+# make plot
 plot <- ggplot2::ggplot(mtags_phyla_mean, aes(x = sample_perc, y = rel, fill = phylum)) +
   ggplot2::geom_bar(position = "stack", stat = "identity") +
   #ggplot2::facet_grid(cols = vars(sample_type), scales = "free_x", space = "free") +
@@ -175,14 +184,16 @@ plot <- ggplot2::ggplot(mtags_phyla_mean, aes(x = sample_perc, y = rel, fill = p
                  legend.text = element_text(size = 28, face = "italic"),
                  legend.title = element_text(size = 32),
                  axis.title = element_text(size = 32),
-                 axis.text.x = element_text(size = 28, angle = 90, vjust = 0.5, hjust=1),
+                 axis.text.x = element_text(size = 28, angle = 45, vjust = 1, hjust = 1),
                  axis.text.y = element_text(size = 28),
                  strip.text = element_text(size = 28))
 plot
+
+
 ggsave("output/figures/figure1.jpg",
        dpi = 300,
        device = "jpeg",
        units = "cm",
-       width = 75/2,
+       width = 75/2.75,
        height = (75/2)/1.6)
 
