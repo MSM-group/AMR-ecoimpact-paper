@@ -66,7 +66,8 @@ dat <- phyloseq::merge_phyloseq(genus_tab, tax_tab, sample_data) %>%
 dat_meco <- dat %>% file2meco::phyloseq2meco()
 #Perform LefSE analysis
 t1 <- microeco::trans_diff$new(dataset = dat_meco, method = "lefse", group = "sample_group", p_adjust_method = "fdr", lefse_subgroup = "sample_perc", lefse_min_subsam = 4)
-t1
+df3 <- t1$res_diff %>%
+  dplyr::mutate(phylum = word(word(Taxa, sep = "p__", 2), sep = "\\|", 1)) 
 
 #Create cladogram
 use_labels <- t1$res_abund %>%
@@ -80,7 +81,7 @@ use_labels <- t1$res_abund %>%
 clades <- t1$plot_diff_cladogram(use_taxa_num = 200, use_feature_num = 50, clade_label_level = 5, group_order = c("0% WW", "30-80 % WW", "30-80 % WW UF")) +
   geom_cladelab(node = 127, label = "p__Cyanobacteria", size = 2)
 phyla_to_keep <- unique(clades$data$label[grepl("p__", clades$data$label)])
-
+clades
 
 ggsave("output/figures/supplemental_LefSE.jpg",
        clades,
@@ -116,9 +117,9 @@ annot_highlight <- annot
 n_colors <- clades_dat$phylum %>%
   unique() %>%
   length()
-
-pal2 <- colorRampPalette(brewer.pal(9, "Set1"))(n_colors)
-pal3 <- gsub("#629363", "gray40", pal2)
+pal <- colorRampPalette(brewer.pal(9, "Set1"))(n_colors)
+pal2 <- gsub("#E41A1C", "gray40", pal)
+pal3 <- gsub("#629363", "#E41A1C", pal2)
 pal4 <- gsub("#F2E631", "royalblue3", pal3)
 pal5 <- gsub("#BD6253", "black", pal4)
 pal6 <- gsub("#BF862B", "lightslateblue", pal5)
@@ -126,7 +127,6 @@ pal7 <- gsub("#C4625D", "forestgreen", pal6)
 pal8 <- gsub("#46A169", "navyblue", pal7)
 pal9 <- gsub("#CE8BAE", "yellow4", pal8)
 pal10 <- gsub("#815375", "deeppink", pal9)
-
 
 ww80.roots <- c(200, 150, 145, 146, 160, 164, 191, 195, 199, 177)
 ww80.colors <- rep("#CA9A81", length(ww80.roots))
@@ -150,9 +150,10 @@ clades_dat$phylum <- gsub("Proteobacteria", "Pseudomonadota", clades_dat$phylum)
 annot$phylum <- gsub("Proteobacteria", "Pseudomonadota", annot$phylum)
 clades_dat$phylum <- gsub("Chloroflexi", "Chloroflexota", clades_dat$phylum)
 annot$phylum <- gsub("Chloroflexi", "Chloroflexota", annot$phylum)
-unique(clades_dat$phylum)
+clades_dat$phylum <- gsub("Cyanobacteria", "Cyanobacteriota", clades_dat$phylum)
+annot$phylum <- gsub("Cyanobacteria", "Cyanobacteriota", annot$phylum)
 
-pdf("output/figures/figure1_LEfSe_with_legend.pdf", width = 8, height = 8)
+pdf("output/figures/figure1_LEfSe_with_legend.pdf", width = 6, height = 6)
 ggtree::ggtree(clades_dat, layout = "circular", aes(color = phylum)) +
   ggtree::geom_point2(data = annot, aes(size = I(node_size), fill = group), shape = 21) +
   ggplot2::labs(fill = "Enrichment", color = "Phylum") +
