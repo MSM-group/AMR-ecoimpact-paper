@@ -176,7 +176,7 @@ plot <- ggplot2::ggplot(mtags_phyla_mean, aes(x = sample_perc, y = rel, fill = p
   ggplot2::geom_bar(position = "stack", stat = "identity") +
   #ggplot2::facet_grid(cols = vars(sample_type), scales = "free_x", space = "free") +
   #ggplot2::scale_x_discrete(labels = c("River water", "Wastewater", "Wastewater UF", "0% WW", "10% WW", "30% WW", "80% WW", "30% WW UF", "80% WW UF")) +
-  ggplot2::scale_y_continuous(breaks = c(0, 0.25, 0.5, 0.75, 1), labels = c("0%", "25%", "50%", "75%", "100%")) +
+  ggplot2::scale_y_continuous(breaks = c(0, 0.25, 0.5, 0.75, 1), labels = c("0", "25", "50", "75", "100")) +
   ggplot2::scale_fill_manual(values = pal) +
   ggpubr::theme_pubr() +
   ggplot2::labs(x = "Biofilm treatment", y = "Relative abundance (%)", fill = "Phylum") +
@@ -194,6 +194,6 @@ ggsave("output/figures/figure1.jpg",
        dpi = 300,
        device = "jpeg",
        units = "cm",
-       width = 75/2.75,
+       width = 75/3,
        height = (75/2)/1.6)
 
